@@ -1,12 +1,8 @@
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/jc/.oh-my-zsh
-export THEOS=/Users/jc/theos
-export PATH=$THEOS/bin:$PATH
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -55,7 +51,10 @@ ZSH_THEME="honukai"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  git
+  zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -87,14 +86,39 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias sudo='sudo '
 alias res=reset
-alias scan-local='arp-scan --interface=en0 --localnet'
-alias gs='git status '
-alias ga='git add '
-alias gb='git branch '
-alias gc='git commit '
-alias gd='git diff '
-alias go='git checkout '
+
+alias gcomt="git checkout main"
+alias gpsbr="git push origin HEAD"
+alias gpsbrf="git push --force origin HEAD"
+alias gplmt="git pull --rebase origin main"
+alias gco="git checkout"
+alias gbr="git branch"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gl="git log"
+alias grebc="git rebase --continue"
+alias greba="git rebase --abort"
+alias gst="git status"
+alias gsh="git stash"
+alias gshl="git stash list"
+alias gshp="git stash pop"
+alias gcm="git commit -m"
+alias gall="git diff-index --name-only --diff-filter=ACMR HEAD | xargs"
+alias gallc="git diff-index --cached --name-only --diff-filter=ACMR HEAD | xargs"
+
+# Alias for interacting with config directory for dotfiles https://www.atlassian.com/git/tutorials/dotfiles
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+function greb {
+  git rebase -i HEAD~$1
+}
+
+function branches() {
+  for k in `git branch | sed s/^..//`; do echo -e `git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --`\\t"$k";done | sort
+}
+
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
