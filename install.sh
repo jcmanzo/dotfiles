@@ -38,6 +38,21 @@ fi
 if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
 	echo "✅ Zsh Autosuggestions is installed"
  else
- 	echo "Oh My Zsh not found. Installing..."
+ 	echo "Zsh Autosuggestions not found. Installing..."
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+fi
+if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
+	echo "✅ Zsh Syntax Highlighting is installed"
+ else
+ 	echo "Zsh Syntax Highlighting not found. Installing..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
+
+# Install Vim plugin manager
+if [ -f ~/.vim/autoload/plug.vim ]; then
+	echo "✅ Vim plugin manager is installed"
+ else
+ 	echo "Vim plugin manager not found. Installing..."
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
