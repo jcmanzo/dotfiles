@@ -38,6 +38,14 @@ else
         https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.oh-my-zsh/jc-git/jc-git.plugin.zsh
 fi
 
+if [ -f ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/honukai.zsh-theme ]; then
+	echo "✅ Honukai theme is installed"
+else
+    echo "Honukai theme not found. Installing..."
+    curl -fLo ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/honukai.zsh-theme --create-dirs \
+        https://raw.githubusercontent.com/oskarkrawczyk/honukai-iterm/master/honukai.zsh-theme
+fi
+
 # Install Vim plugin manager
 if [ -f ~/.vim/autoload/plug.vim ]; then
 	echo "✅ Vim plugin manager is installed"
