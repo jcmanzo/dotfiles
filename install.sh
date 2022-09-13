@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install Z shell if required
-which zsh
+which zsh 1> /dev/null
 if [[ $? != 0 ]] ; then
     echo "❗️ Z shell not found. Install before proceeding."
 else
