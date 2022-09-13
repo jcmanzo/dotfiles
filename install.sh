@@ -34,7 +34,8 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git ]; then
 	echo "✅ Git aliases is installed"
 else
     echo "Git aliases not found. Installing..."
-    cp -r ./oh-my-zsh/jc-git  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git
+    curl -fLo ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git/jc-git.plugin.zsh --create-dirs \
+        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.oh-my-zsh/jc-git/jc-git.plugin.zsh
 fi
 
 # Install Vim plugin manager
