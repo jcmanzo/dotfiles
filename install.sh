@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Sets the default editor for all programs to Vim
-export VISUAL=vim
-export EDITOR="$VISUAL"
-
 # Install brew if required
 which -s brew
 if [[ $? != 0 ]] ; then
