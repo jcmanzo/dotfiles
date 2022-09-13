@@ -44,6 +44,13 @@ if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; th
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
+if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git ]; then
+	echo "✅ Git aliases is installed"
+else
+    echo "Git aliases not found. Installing..."
+    cp -r ./oh-my-zsh/jc-git  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git
+fi
+
 # Install Vim plugin manager
 if [ -f ~/.vim/autoload/plug.vim ]; then
 	echo "✅ Vim plugin manager is installed"
