@@ -54,3 +54,8 @@ if [ -f ~/.vim/autoload/plug.vim ]; then
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+
+
+echo "✅ Updating .vimrc"
+curl -fLo ~/.vimrc \
+        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.vimrc
