@@ -1,25 +1,11 @@
 #!/bin/bash
 
-# Install brew if required
-which -s brew
-if [[ $? != 0 ]] ; then
-    # Install Homebrew
-    echo "✅ Brew not found. Installing 🍺..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-    echo "✅ Brew is installed"
-    echo -n "Updating 🍺..."
-    brew update
-fi
-
 # Install Z shell if required
-which -s zsh
+which zsh
 if [[ $? != 0 ]] ; then
-    echo "✅ Z shell not found. Installing 🆉..."
-    brew install zsh
+    echo "❗️ Z shell not found. Install before proceeding."
 else
    echo "✅ Z shell is installed"
-
 fi
 
 # Install Oh My Zsh framekwork if required
