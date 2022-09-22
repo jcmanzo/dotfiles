@@ -68,5 +68,7 @@ export EDITOR="$VISUAL"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias res=reset
 
-# Alias for interacting with config directory for dotfiles https://www.atlassian.com/git/tutorials/dotfiles
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# Kill screen session id
+function scrk {
+  screen -X -S $1 quit
+}
