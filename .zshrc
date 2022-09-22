@@ -68,6 +68,9 @@ export EDITOR="$VISUAL"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias res=reset
 
+# List screen sessions
+alias scrl="screen -ls"
+
 # Kill screen session id
 function scrk {
   screen -X -S $1 quit
