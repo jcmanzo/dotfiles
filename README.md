@@ -1,3 +1,3 @@
 # dotfiles
 
-My personal dotfiles that I like to use :D
+Collection of personal dotfiles, environment settings and tools that I like to use.
