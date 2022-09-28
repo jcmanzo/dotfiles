@@ -13,9 +13,19 @@ function git_main_branch() {
   echo master
 }
 
+# Borrowed from https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/gitfast/gitfast.plugin.zsh
+########################################
+# Handle $0 according to the standard:
+# https://zdharma-continuum.github.io/Zsh-100-Commits-Club/Zsh-Plugin-Standard.html
+0="${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}"
+0="${${(M)0:#/*}:-$PWD/$0}"
+
+source "${0:A:h}/git-prompt.sh"
+
 function git_prompt_info() {
   __git_ps1 "${ZSH_THEME_GIT_PROMPT_PREFIX//\%/%%}%s${ZSH_THEME_GIT_PROMPT_SUFFIX//\%/%%}"
 }
+########################################
 
 alias g="git"
 
