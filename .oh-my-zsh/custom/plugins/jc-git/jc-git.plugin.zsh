@@ -13,6 +13,10 @@ function git_main_branch() {
   echo master
 }
 
+function git_prompt_info() {
+  __git_ps1 "${ZSH_THEME_GIT_PROMPT_PREFIX//\%/%%}%s${ZSH_THEME_GIT_PROMPT_SUFFIX//\%/%%}"
+}
+
 alias g="git"
 
 alias ga="git add"
