@@ -36,6 +36,9 @@ else
     echo "Git aliases not found. Installing..."
     curl -fLo ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git/jc-git.plugin.zsh --create-dirs \
         https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.oh-my-zsh/custom/plugins/jc-git/jc-git.plugin.zsh
+  
+    curl -fLo ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/jc-git/git-prompt.sh \
+        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.oh-my-zsh/custom/plugins/jc-git/git-prompt.sh
 fi
 
 if [ -f ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/honukai.zsh-theme ]; then
