@@ -70,6 +70,7 @@ alias res=reset
 
 # List screen sessions
 alias scrl="screen -ls"
+alias dc="docker compose"
 
 # Kill screen session id
 function scrk {
