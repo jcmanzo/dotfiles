@@ -39,7 +39,7 @@ ENABLE_CORRECTION="false"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  jc-git
+  git
   zsh-autosuggestions
   zsh-syntax-highlighting
   autojump
@@ -76,3 +76,5 @@ alias dc="docker compose"
 function scrk {
   screen -X -S $1 quit
 }
+
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh

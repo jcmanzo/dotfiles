@@ -1,101 +1,102 @@
 #!/bin/bash
 
-# Install Z shell if required
-which zsh 1> /dev/null
-if [[ $? != 0 ]] ; then
-   echo "❗️ Z shell not found. Install before proceeding."
-else
-   echo "✅ Z shell exists, skipping."
-fi
+EMOJI_NEWLINE=" →"
+OS=$(uname -s)
 
-# Install Oh My Zsh framekwork if required
-if [ -d "$ZSH" ] ; then
-  echo "✅ Oh My Zsh exists, skipping."
-else
-  echo "⬇ Oh My Zsh not found. Installing..."
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
-
-# Install Oh My Zsh plugins
 OMZ_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 OMZ_CUSTOM_PLUGINS="$OMZ_CUSTOM/plugins"
 OMZ_CUSTOM_THEMES="$OMZ_CUSTOM/themes"
 
-clean_files () {
-  # Remove oh-my-zsh plugins
-  rm -rf $OMZ_CUSTOM
+init_pkg_manager () {
+  echo "$EMOJI_NEWLINE Initializing pkg manager"
 
-  # Delete and backup other files.
-  cp -n $HOME/.vimrc{,.bak}
-  rm $HOME/.vimrc
-
-  cp -n $HOME/.zshrc{,.bak}
-  rm $HOME/.zshrc
+  if [ "$OS" == "Darwin" ]; then
+    # If Darwin, install Homebrew
+    if ! [ -x "$(command -v brew)" ]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      echo " $EMOJI_NEWLINE Installed Homebrew"
+    fi
+    echo "  $EMOJI_NEWLINE Updating Homebrew"
+    brew update 1> /dev/null
+  else
+    echo "linux"
+    sudo apt-get update
+  fi
 }
 
-# Force flag to reinstall plugins and configurations.
-force=false
-while getopts "f" opt; do
-  if [ $opt == "f" ]; then
-    force=true
-    echo "♻️ Flag -f provided, plugins and configs will be reinstalled."
-    clean_files
+init_pkgs () {
+  declare -a StringArray=("zsh" "autojump")
+  echo "$EMOJI_NEWLINE Initializing packages"
+  for pkg in ${StringArray[@]}; do
+    if [ "$OS" == "Darwin" ]; then
+      if ! [ -x "$(command -v $pkg)" ]; then
+        brew install $pkg 1> /dev/null
+        echo " $EMOJI_NEWLINE Installed $pkg"
+      fi
+    else
+      if ! [ -x "$(command -v $pkg)" ]; then
+        sudo apt-get install $pkg -y 1> /dev/null
+        echo " $EMOJI_NEWLINE Installed $pkg"
+      fi
+    fi
+  done
+}
+
+init_oh_my_zsh() {
+  # Install oh-my-zsh
+  echo "$EMOJI_NEWLINE Initializing oh-my-zsh"
+  if [ -d "$HOME/.oh-my-zsh" ]; then
+    echo "  $EMOJI_NEWLINE Detected installed oh-my-zsh framework"
+  else
+    /bin/bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "  $EMOJI_NEWLINE Installed oh-my-zsh framework"
   fi
-done
 
-if [ -d $OMZ_CUSTOM_PLUGINS/zsh-autosuggestions ]; then
-	echo "✅ Zsh Autosuggestions exists, skipping."
- else
- 	echo "⬇ Zsh Autosuggestions not found. Installing..."
-    git clone --quiet https://github.com/zsh-users/zsh-autosuggestions $OMZ_CUSTOM_PLUGINS/zsh-autosuggestions
-fi
-if [ -d $OMZ_CUSTOM_PLUGINS/zsh-syntax-highlighting ]; then
-	echo "✅ Zsh Syntax Highlighting exists, skipping."
- else
- 	echo "⬇ Zsh Syntax Highlighting not found. Installing..."
-    git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting.git $OMZ_CUSTOM_PLUGINS/zsh-syntax-highlighting
-fi
+  # Install extra oh-my-zsh plugins
+  declare -a StringArray=("zsh-autosuggestions" "zsh-syntax-highlighting")
+  echo "  $EMOJI_NEWLINE Installing zsh plugins"
+  for plugin in ${StringArray[@]}; do
+    if [ -d $OMZ_CUSTOM_PLUGINS/$plugin ]; then
+      echo "    $EMOJI_NEWLINE Detected installed '$plugin' plugin."
+    else
+      git clone --quiet "https://github.com/zsh-users/$plugin" $OMZ_CUSTOM_PLUGINS/$plugin
+      echo "    $EMOJI_NEWLINE Installed $plugin"
+    fi
+  done
+}
 
-if [ -d $OMZ_CUSTOM_PLUGINS/jc-git ]; then
-	echo "✅ Git aliases exists, skipping."
-else
-    echo "⬇ Git aliases not found. Installing..."
-    curl -fLo $OMZ_CUSTOM_PLUGINS/jc-git/jc-git.plugin.zsh --create-dirs --silent \
-        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.oh-my-zsh/custom/plugins/jc-git/jc-git.plugin.zsh
+init_dotfiles() {
+  echo "$EMOJI_NEWLINE Initializing dot files"
+  declare -a StringArray=(".zshrc" ".vimrc" ".tmux.conf")
+  for file in ${StringArray[@]}; do
+    if [ -f $HOME/$file ]; then
+      echo "  $EMOJI_NEWLINE Detected '$file' file. Backing up to $HOME/$file.bak"
+      cp -n $HOME/$file{,.bak}
+      rm $HOME/$file
+    fi
 
-    curl -fLo $OMZ_CUSTOM_PLUGINS/jc-git/git-prompt.sh --silent \
-        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.oh-my-zsh/custom/plugins/jc-git/git-prompt.sh
-fi
+    ln -s $(pwd)/files/$file $HOME/$file
+    echo "  $EMOJI_NEWLINE Copied over $file"
+  done
+}
 
-if [ -f $OMZ_CUSTOM/themes/honukai.zsh-theme ]; then
-	echo "✅ Honukai theme exists, skipping."
-else
-    echo "⬇ Honukai theme not found. Installing..."
-    curl -fLo $OMZ_CUSTOM/themes/honukai.zsh-theme --create-dirs --silent \
-        https://raw.githubusercontent.com/oskarkrawczyk/honukai-iterm/master/honukai.zsh-theme
-fi
+init_other_files() {
+   # Install my custom plugins
+   # Loop over and copy files in files/.oh-my-zsh/custom/plugins/jc-git
+    echo "$EMOJI_NEWLINE Initializing custom plugins"
+    declare -a StringArray=("git")
+    for plugin in ${StringArray[@]}; do
+      if [ -d $OMZ_CUSTOM_PLUGINS/$plugin ]; then
+        echo "  $EMOJI_NEWLINE Detected installed '$plugin' plugin."
+      else
+        cp -rn $(pwd)/files/.oh-my-zsh/custom/plugins/$plugin $OMZ_CUSTOM_PLUGINS/$plugin
+      fi
+    done
+}
 
-# Install Vim plugin manager
-if [ -f ~/.vim/autoload/plug.vim ]; then
-	echo "✅ Vim plugin manager exists, skipping."
- else
- 	echo "⬇ Vim plugin manager not found. Installing..."
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs --silent \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
+init_pkg_manager
+init_pkgs
+init_oh_my_zsh
+init_dotfiles
+init_other_files
 
-if [ "$force" == true ]; then
-  echo "⬇ Updating .vimrc"
-  curl -fLo ~/.vimrc --silent \
-        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.vimrc
-else
-  echo "✅ .vimrc exists, skipping."
-fi
-
-if [ "$force" == true ]; then
-  echo "⬇ Updating .zshrc"
-  curl -fLo ~/.zshrc --silent \
-        https://raw.githubusercontent.com/jcmanzo/dotfiles/master/.zshrc
-else
-  echo "✅ .zshrc exists, skipping."
-fi
