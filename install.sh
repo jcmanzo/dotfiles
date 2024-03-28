@@ -1,4 +1,5 @@
 #!/bin/bash
+# Note: This installation script assumes a macOS or Debian-based system.
 
 EMOJI_NEWLINE=" →"
 OS=$(uname -s)
