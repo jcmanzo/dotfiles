@@ -7,6 +7,7 @@ OS=$(uname -s)
 OMZ_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 OMZ_CUSTOM_PLUGINS="$OMZ_CUSTOM/plugins"
 OMZ_CUSTOM_THEMES="$OMZ_CUSTOM/themes"
+OMZ_THEME_NAME="honukai.zsh-theme"
 
 init_pkg_manager () {
   echo "$EMOJI_NEWLINE Initializing pkg manager"
@@ -81,7 +82,7 @@ init_dotfiles() {
   done
 }
 
-init_other_files() {
+init_custom_omzsh() {
    # Install my custom plugins
    # Loop over and copy files in files/.oh-my-zsh/custom/plugins/jc-git
     echo "$EMOJI_NEWLINE Initializing custom plugins"
@@ -93,11 +94,13 @@ init_other_files() {
         cp -rn $(pwd)/files/.oh-my-zsh/custom/plugins/$plugin $OMZ_CUSTOM_PLUGINS/$plugin
       fi
     done
+
+	  echo "$EMOJI_NEWLINE Installing latest custom Honukai theme..."
+    cp -rn $(pwd)/files/.oh-my-zsh/custom/themes/$OMZ_THEME_NAME $OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME
 }
 
 init_pkg_manager
 init_pkgs
 init_oh_my_zsh
 init_dotfiles
-init_other_files
-
+init_custom_omzsh
