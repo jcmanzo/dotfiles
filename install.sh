@@ -26,7 +26,7 @@ init_pkg_manager () {
   fi
 }
 
-init_pkgs () {
+install_pkgs () {
   declare -a StringArray=("zsh" "autojump")
   echo "$EMOJI_NEWLINE Initializing packages"
   for pkg in ${StringArray[@]}; do
@@ -85,7 +85,7 @@ init_dotfiles() {
 init_custom_omzsh() {
    # Install my custom plugins
    # Loop over and copy files in files/.oh-my-zsh/custom/plugins/jc-git
-    echo "$EMOJI_NEWLINE Initializing custom plugins"
+    echo "$EMOJI_NEWLINE Initializing custom oh-my-zsh plugins"
     declare -a StringArray=("git")
     for plugin in ${StringArray[@]}; do
       if [ -d $OMZ_CUSTOM_PLUGINS/$plugin ]; then
@@ -95,12 +95,24 @@ init_custom_omzsh() {
       fi
     done
 
-	  echo "$EMOJI_NEWLINE Installing latest custom Honukai theme..."
+	  echo "$EMOJI_NEWLINE Installing latest custom Honukai theme"
     cp -rn $(pwd)/files/.oh-my-zsh/custom/themes/$OMZ_THEME_NAME $OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME
 }
 
+init_vim_plugin_manager() {
+  # Install Vim plugin manager
+  if [ -f ~/.vim/autoload/plug.vim ]; then
+    echo "$EMOJI_NEWLINE Detected installed Vim plugin manager."
+  else
+    echo "$EMOJI_NEWLINE Installing Vim plugin manager."
+      curl -fLo ~/.vim/autoload/plug.vim --create-dirs --silent \
+          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  fi
+}
+
 init_pkg_manager
-init_pkgs
+install_pkgs
 init_oh_my_zsh
 init_dotfiles
 init_custom_omzsh
+init_vim_plugin_manager
