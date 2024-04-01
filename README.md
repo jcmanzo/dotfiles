@@ -6,10 +6,8 @@ Collection of personal dotfiles, environment settings and tools that I like to u
 
 ## Default
 
-Clone repo and run `./install.sh` script.
-
-## Using Curl
+Clone the repo and run `./install.sh` script.
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/jcmanzo/dotfiles/rewrite-intall-procedure/install.sh)"
+git clone https://github.com/jcmanzo/dotfiles.git && cd dotfiles && ./install.sh
 ```
