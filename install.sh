@@ -7,7 +7,7 @@ OS=$(uname -s)
 OMZ_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 OMZ_CUSTOM_PLUGINS="$OMZ_CUSTOM/plugins"
 OMZ_CUSTOM_THEMES="$OMZ_CUSTOM/themes"
-OMZ_THEME_NAME="honukai.zsh-theme"
+OMZ_THEME_NAME="honukai_modified.zsh-theme"
 
 init_pkg_manager () {
   echo "$EMOJI_NEWLINE Initializing pkg manager"
@@ -21,7 +21,6 @@ init_pkg_manager () {
     echo "  $EMOJI_NEWLINE Updating Homebrew"
     brew update 1> /dev/null
   else
-    echo "linux"
     sudo apt-get update
   fi
 }
@@ -84,19 +83,19 @@ init_dotfiles() {
 
 init_custom_omzsh() {
    # Install my custom plugins
-   # Loop over and copy files in files/.oh-my-zsh/custom/plugins/jc-git
+   # Loop over and copy files in files/oh-my-zsh/custom/plugins/jc-git
     echo "$EMOJI_NEWLINE Initializing custom oh-my-zsh plugins"
     declare -a StringArray=("git")
     for plugin in ${StringArray[@]}; do
       if [ -d $OMZ_CUSTOM_PLUGINS/$plugin ]; then
         echo "  $EMOJI_NEWLINE Detected installed '$plugin' plugin."
       else
-        cp -rn $(pwd)/files/.oh-my-zsh/custom/plugins/$plugin $OMZ_CUSTOM_PLUGINS/$plugin
+        cp -rn $(pwd)/files/oh-my-zsh/custom/plugins/$plugin $OMZ_CUSTOM_PLUGINS/$plugin
       fi
     done
 
 	  echo "$EMOJI_NEWLINE Installing latest custom Honukai theme"
-    cp -rn $(pwd)/files/.oh-my-zsh/custom/themes/$OMZ_THEME_NAME $OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME
+    cp -rn $(pwd)/files/oh-my-zsh/themes/$OMZ_THEME_NAME $OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME
 }
 
 init_vim_plugin_manager() {
