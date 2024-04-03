@@ -26,7 +26,7 @@ init_pkg_manager () {
 }
 
 install_pkgs () {
-  declare -a StringArray=("zsh" "autojump")
+  declare -a StringArray=("zsh" "autojump" "tldr" "fzf")
   echo "$EMOJI_NEWLINE Initializing packages"
   for pkg in ${StringArray[@]}; do
     if [ "$OS" == "Darwin" ]; then
