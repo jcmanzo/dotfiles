@@ -72,6 +72,12 @@ alias res=reset
 alias scrl="screen -ls"
 alias dc="docker compose"
 
+function manf () {
+  # Search flag in mannual page
+  # Ex: manf curl -L
+  man $1 | less -p "^ +$2"
+}
+
 # Kill screen session id
 function scrk {
   screen -X -S $1 quit
