@@ -11,3 +11,9 @@ Clone the repo and run `./install.sh` script.
 ```bash
 git clone https://github.com/jcmanzo/dotfiles.git && cd dotfiles && ./install.sh
 ```
+
+## Curl
+
+```bash
+curl -sSL https://raw.githubusercontent.com/jcmanzo/dotfiles/main/install.sh | bash -s -- -r
+```
