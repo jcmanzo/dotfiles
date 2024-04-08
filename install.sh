@@ -9,6 +9,22 @@ OMZ_CUSTOM_PLUGINS="$OMZ_CUSTOM/plugins"
 OMZ_CUSTOM_THEMES="$OMZ_CUSTOM/themes"
 OMZ_THEME_NAME="honukai_modified.zsh-theme"
 
+GH_DOTFILES_RAW="https://raw.githubusercontent.com/jcmanzo/dotfiles/main/files/"
+
+# Check user flag "p" for option to use remote dotfiles
+while getopts "r" opt; do
+  case $opt in
+    r)
+      echo "$EMOJI_NEWLINE Using remote dotfiles"
+      REMOTE_DOTFILES=true
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
 init_pkg_manager () {
   echo "$EMOJI_NEWLINE Initializing pkg manager"
 
@@ -76,7 +92,12 @@ init_dotfiles() {
       rm $HOME/$file
     fi
 
-    ln -s $(pwd)/files/$file $HOME/$file
+    if [ "$REMOTE_DOTFILES" = true ]; then
+      helper_download_file $file
+    else
+      ln -fs $(pwd)/files/$file $HOME/$file
+    fi
+
     echo "  $EMOJI_NEWLINE Copied over $file"
   done
 }
@@ -95,7 +116,11 @@ init_custom_omzsh() {
     done
 
 	  echo "$EMOJI_NEWLINE Installing latest custom Honukai theme"
-    cp -rn $(pwd)/files/oh-my-zsh/themes/$OMZ_THEME_NAME $OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME
+    if [ "$REMOTE_DOTFILES" = true ]; then
+      helper_download_file $file
+    else
+      cp -rfn $(pwd)/files/oh-my-zsh/themes/$OMZ_THEME_NAME $OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME
+    fi
 }
 
 init_vim_plugin_manager() {
@@ -107,6 +132,11 @@ init_vim_plugin_manager() {
       curl -fLo ~/.vim/autoload/plug.vim --create-dirs --silent \
           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
+}
+
+helper_download_file() {
+  echo "  $EMOJI_NEWLINE Downloading file: $1"
+  curl -sSL $GH_DOTFILES_RAW$1 > $HOME/$1
 }
 
 init_pkg_manager
