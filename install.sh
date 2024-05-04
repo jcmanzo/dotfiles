@@ -136,7 +136,6 @@ init_vim_plugin_manager() {
 
 helper_download_file() {
   echo "  $EMOJI_NEWLINE Downloading file: $1"
-  echo " DEBUG ---- $GH_DOTFILES_RAW/$1 > $2"
   curl -sSL $GH_DOTFILES_RAW/$1 > $2
 }
 
