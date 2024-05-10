@@ -119,7 +119,7 @@ init_custom_omzsh() {
     if [ "$REMOTE_DOTFILES" = true ]; then
       helper_download_file "oh-my-zsh/custom/themes/$OMZ_THEME_NAME" "$OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME"
     else
-      cp -rfn $(pwd)/files/oh-my-zsh/themes/$OMZ_THEME_NAME "$OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME"
+      cp -rfn $(pwd)/files/oh-my-zsh/custom/themes/$OMZ_THEME_NAME "$OMZ_CUSTOM_THEMES/$OMZ_THEME_NAME"
     fi
 }
 
