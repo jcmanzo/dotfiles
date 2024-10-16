@@ -42,7 +42,7 @@ init_pkg_manager () {
 }
 
 install_pkgs () {
-  declare -a StringArray=("zsh" "autojump" "tldr" "fzf")
+  declare -a StringArray=("zsh" "autojump" "tldr" "fzf" "ripgrep")
   echo "$EMOJI_NEWLINE Initializing packages"
   for pkg in ${StringArray[@]}; do
     if [ "$OS" == "Darwin" ]; then
