@@ -6,7 +6,7 @@ Collection of personal dotfiles, environment settings and tools that I like to u
 
 ## Default
 
-Clone the repo and run `./install.sh` script.
+Clone the repo and run the installation script: `./install.sh`
 
 ```bash
 git clone https://github.com/jcmanzo/dotfiles.git && cd dotfiles && ./install.sh
