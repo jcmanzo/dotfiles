@@ -1,6 +1,6 @@
 # Description
 
-Collection of personal dotfiles, environment settings and tools that I like to use to keep my development environments in sync.
+Collection of dotfiles, environment settings and tools that I use to keep my development environments in sync.
 
 # Install
 
