@@ -8,6 +8,8 @@ A collection of dotfiles, environment settings and tools that I use to keep my d
 
 Clone the repo and run the installation script: `./install.sh`
 
+Example:
+
 ```bash
 git clone https://github.com/jcmanzo/dotfiles.git && cd dotfiles && ./install.sh
 ```
