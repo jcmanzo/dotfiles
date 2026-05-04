@@ -68,3 +68,5 @@ alias gpsbrf='git push --force-with-lease origin "$(git_current_branch)"'
 
 alias gplm="git pull --rebase origin $(git_main_branch)"
 alias gpl="git pull origin $(git_current_branch)"
+
+alias grs="git restore --staged"
