@@ -2,9 +2,26 @@
 
 # Check if main exists and use instead of master
 function git_main_branch() {
-  if [ -d .git ]; then
-    git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+  command git rev-parse --git-dir &>/dev/null || return 1
+
+  local branch
+
+  # Prefer the remote's configured default branch when origin exists.
+  branch=$(command git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null)
+  if [[ -n "$branch" ]]; then
+    print -r -- "${branch#origin/}"
+    return 0
   fi
+
+  # Support repositories without a remote.
+  for branch in main master; do
+    if command git show-ref --verify --quiet "refs/heads/$branch"; then
+      print -r -- "$branch"
+      return 0
+    fi
+  done
+
+  return 1
 }
 
 # Borrowed from https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/gitfast/gitfast.plugin.zsh
